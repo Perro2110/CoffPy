@@ -1,7 +1,7 @@
-from src.parser import Parser
-from src.parser import BinOp, Int
+from src.coffpy.parser import Parser
+from src.coffpy.parser import BinOp, Int
 
-from src.tokenizer import Token, TokenType
+from src.coffpy.tokenizer import Token, TokenType
 
 def test_parsing_addition():
     tokens = [

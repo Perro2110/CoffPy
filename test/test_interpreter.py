@@ -1,7 +1,7 @@
-from src.tokenizer import Tokenizer
-from src.parser import Parser
-from src.compiler import Compiler
-from src.interpreter import Interpreter
+from src.coffpy.tokenizer import Tokenizer
+from src.coffpy.parser import Parser
+from src.coffpy.compiler import Compiler
+from src.coffpy.interpreter import Interpreter
 
 import pytest
 

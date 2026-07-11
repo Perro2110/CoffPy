@@ -1,5 +1,5 @@
-from src.compiler import Bytecode, BytecodeType, Compiler
-from src.parser import BinOp, Int
+from src.coffpy.compiler import Bytecode, BytecodeType, Compiler
+from src.coffpy.parser import BinOp, Int
 
 def test_compile_addition():
     tree = BinOp(

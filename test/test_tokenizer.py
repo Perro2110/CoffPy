@@ -1,4 +1,4 @@
-from src.tokenizer import Token, Tokenizer, TokenType
+from src.coffpy.tokenizer import Token, Tokenizer, TokenType
 import pytest 
 
 def test_tokenizer_addition():

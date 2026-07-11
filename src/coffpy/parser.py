@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from src.tokenizer import Token, TokenType
+from src.coffpy.tokenizer import Token, TokenType
 
 @dataclass
 class TreeNode:
