@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from tokenizer import Token, TokenType
+from src.tokenizer import Token, TokenType
 
 @dataclass
 class TreeNode:
