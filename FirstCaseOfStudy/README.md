@@ -1,1 +1,0 @@
-My first prototype will compute additions and subtractions. I'll have a program (with a tokenizer, a parser, a compiler, and an interpreter) that computes the result of expressions like 3 + 5, 6 - 3, and 1 + 2 + 3 + 4 - 5 - 6 + 7 - 8.
