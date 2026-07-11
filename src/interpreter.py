@@ -1,5 +1,4 @@
-from src.compiler import Bytecode
-
+from src.compiler import Bytecode, BytecodeType
 class Stack:
     def __init__(self) -> None:
         self.stack: list[int] = []
