@@ -9,10 +9,16 @@ class TokenType(StrEnum):
     MINUS = auto()
     EOF = auto()
 
+    def __repr__(self):
+        return f"TokenType.{self.name}"
+
 @dataclass
 class Token:
     type: TokenType
     value: Any = None
+
+    def __repr__(self):
+        return f"Token({self.type}) {self.value!r}" if self.value is not None else f"Token({self.type})"
 
 
 """
