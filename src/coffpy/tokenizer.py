@@ -5,6 +5,7 @@ from string import digits
 
 class TokenType(StrEnum):
     INT = auto()
+    FLOAT = auto()
     PLUS = auto()
     MINUS = auto()
     EOF = auto()
@@ -39,6 +40,16 @@ class Tokenizer:
             self.ptr += 1
         return int(self.code[start : self.ptr])
 
+    def consume_decimal(self) -> float:
+        """Reads a decimal part that starts with a . and returns it as a float."""
+        start = self.ptr
+        self.ptr += 1
+        while self.ptr < len(self.code) and self.code[self.ptr] in digits:
+            self.ptr += 1
+        # Did we actually read _any_ digits or did we only manage to read the `.`?
+        float_str = self.code[start : self.ptr] if self.ptr - start > 1 else ".0"
+        return float(float_str)
+   
     def next_token(self) -> Token:
         while self.ptr < len(self.code) and self.code[self.ptr] == " ":
             self.ptr += 1
@@ -47,16 +58,26 @@ class Tokenizer:
             return Token(TokenType.EOF)
 
         char = self.code[self.ptr]
-        # self.ptr += 1
         if char == "+":
-            self.ptr += 1  
+            self.ptr += 1
             return Token(TokenType.PLUS)
         elif char == "-":
-            self.ptr += 1 
+            self.ptr += 1
             return Token(TokenType.MINUS)
         elif char in digits:
-            integer = self.consume_int()  
+            integer = self.consume_int()
+            # Is the integer followed by a decimal part?
+            if self.ptr < len(self.code) and self.code[self.ptr] == ".":
+                decimal = self.consume_decimal()
+                return Token(TokenType.FLOAT, integer + decimal)
             return Token(TokenType.INT, integer)
+        elif (  # Make sure we don't read a lone period `.`.
+            char == "."
+            and self.ptr + 1 < len(self.code)
+            and self.code[self.ptr + 1] in digits
+        ):
+            decimal = self.consume_decimal()
+            return Token(TokenType.FLOAT, decimal)
         else:
             raise RuntimeError(f"Can't tokenize {char!r}.")
 
