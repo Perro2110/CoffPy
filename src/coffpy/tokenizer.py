@@ -17,9 +17,8 @@ class Token:
     type: TokenType
     value: Any = None
 
-    def __repr__(self):
-        return f"Token({self.type}) {self.value!r}" if self.value is not None else f"Token({self.type})"
-
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.type!r}, {self.value!r})"
 
 """
 we want to be able to turn a string like

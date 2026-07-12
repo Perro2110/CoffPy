@@ -15,6 +15,18 @@ class BinOp(TreeNode):
 class Int(TreeNode):
     value: int
 
+def print_ast(tree: TreeNode, depth: int = 0) -> None:
+    indent = "    " * depth
+    match tree:
+        case BinOp(op, left, right):
+            print(indent + op)
+            print_ast(left, depth + 1)
+            print_ast(right, depth + 1)
+        case Int(value):
+            print(indent + str(value))
+        case _:
+            raise RuntimeError(f"Can't print a node of type {tree.__class__.__name__}")
+
 class Parser:
     def __init__(self, tokens: list[Token]) -> None:
         self.tokens = tokens

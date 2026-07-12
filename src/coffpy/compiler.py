@@ -12,9 +12,9 @@ class Bytecode:
     type: BytecodeType
     value: Any = None
 
-    def __repr__(self):
-        return f"Bytecode({self.type}) {self.value!r}" if self.value is not None else f"Bytecode({self.type})"
-    
+    def __repr__(self) -> str:
+            return f"{self.__class__.__name__}({self.type!r}, {self.value!r})"
+
 class Compiler:
     def __init__(self, tree: BinOp) -> None:
         self.tree = tree
