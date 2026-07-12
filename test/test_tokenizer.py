@@ -68,3 +68,16 @@ def test_tokenizer_knows_integer():
 def test_tokenizer_recognises_each_token(code: str, token: Token):
     tokens = list(Tokenizer(code))
     assert tokens == [token, Token(TokenType.EOF)]
+
+@pytest.mark.parametrize(
+    ["code", "token"],
+    [
+        (" 61      ", Token(TokenType.INT, 61)),
+        ("    72345    ", Token(TokenType.INT, 72345)),
+        ("9142351643", Token(TokenType.INT, 9142351643)),
+        ("     642357413455672", Token(TokenType.INT, 642357413455672)),
+    ],
+)
+def test_tokenizer_long_integers(code: str, token: Token):
+    tokens = list(Tokenizer(code))
+    assert tokens == [token, Token(TokenType.EOF)]
