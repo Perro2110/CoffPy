@@ -8,12 +8,16 @@ class TreeNode:
 @dataclass
 class BinOp(TreeNode):
     op: str
-    left: "Int"
-    right: "Int"
+    left: "Int | Float"   
+    right: "Int | Float" 
 
 @dataclass
 class Int(TreeNode):
     value: int
+
+@dataclass
+class Float(TreeNode):
+    value: float
 
 def print_ast(tree: TreeNode, depth: int = 0) -> None:
     indent = "    " * depth
@@ -22,7 +26,7 @@ def print_ast(tree: TreeNode, depth: int = 0) -> None:
             print(indent + op)
             print_ast(left, depth + 1)
             print_ast(right, depth + 1)
-        case Int(value):
+        case Int(value) | Float(value):  # <- We add the Float here.
             print(indent + str(value))
         case _:
             raise RuntimeError(f"Can't print a node of type {tree.__class__.__name__}")
@@ -49,9 +53,16 @@ class Parser:
         peek_at = self.next_token_index + skip
         return self.tokens[peek_at].type if peek_at < len(self.tokens) else None
     
-    def parse(self) -> BinOp:
-        """Parses the program."""
-        left_op = self.eat(TokenType.INT)
+    def parse_number(self) -> Int | Float:
+        """Parses an integer or a float."""
+        if self.peek() == TokenType.INT:
+            return Int(self.eat(TokenType.INT).value)
+        else:
+            return Float(self.eat(TokenType.FLOAT).value)
+
+    def parse_computation(self) -> BinOp:
+        """Parses a computation."""
+        left = self.parse_number()
 
         if self.peek() == TokenType.PLUS:
             op = "+"
@@ -60,8 +71,12 @@ class Parser:
             op = "-"
             self.eat(TokenType.MINUS)
 
-        right_op = self.eat(TokenType.INT)
+        right = self.parse_number()
 
+        return BinOp(op, left, right)
+
+    def parse(self) -> BinOp:
+        """Parses the program."""
+        computation = self.parse_computation()
         self.eat(TokenType.EOF)
-
-        return BinOp(op, Int(left_op.value), Int(right_op.value))
+        return computation
