@@ -1,5 +1,5 @@
 from src.coffpy.parser import Parser
-from src.coffpy.parser import BinOp, Int
+from src.coffpy.parser import BinOp, Int, Float
 
 from src.coffpy.tokenizer import Token, TokenType
 
